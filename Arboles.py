@@ -40,22 +40,26 @@ class BinaryTree:
         
         
     def isbalanced(self):
-        if self.left.get_height() is not None:
+        if self.left is not None:
             altura_izq = self.left.get_height()
-
         else:
             altura_izq = 0
-        if self.right.get_height() is not None:
+        if self.right is not None:
             altura_drcha = self.right.get_height()
         else:
             altura_drcha = 0
         if abs(altura_izq - altura_drcha) <= 1:
-            return True
+            balanceado_actual =  True
         else:
             return False   
         izq_ok = True
-        drcha_ok = True
+        drcha_ok = True 
         if self.left is not None:
+            izq_ok = self.left.isbalanced()
+        if self.right is not None:
+            drcha_ok = self.right.isbalanced()
+        return izq_ok and drcha_ok and balanceado_actual
+
     def insert_right(self, data):
         if self.right is None:
             self.right = BinaryTree(data)
