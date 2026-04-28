@@ -2,7 +2,8 @@
 """
 Estructura de datos bÃƒÂ¡sica de ÃƒÂ¡rbol binario.
 """
-
+import anytree
+import importlib.util
 
 class BinaryTree:
     def __init__(self, value):
@@ -409,7 +410,35 @@ class BinaySearchTree(BinaryTree):
                 dercha_ok = True
         return actual_ok or izq_ok or dercha_ok
 
+import random
+import time
 
+print("Generando 10k elementos aleatorios...")
+elementos = []
+for _ in range(10000):
+    elementos.append(random.randint(1, 1000000))
+dato_buscado = -1 #Vamos a coger un dato que no este en elementos para ver cual es le maximo tiempo que se tarda en recorrer todo"
+
+arbol_prueba = BinaySearchTree(elementos[0])
+for i in range(1, len(elementos)):
+    arbol_prueba.insert(elementos[i])
+
+#Buscamos linealmente
+t_ini_lista = time.perf_counter_ns()
+existe_lista = dato_buscado in elementos
+t_fin_lista = time.perf_counter_ns()
+tiempo_lista = t_fin_lista - t_ini_lista
+print(f"Tiempo de busqueda lineal: {tiempo_lista} nanosegundos")
+
+#Buscamos en el BST
+t_ini_bst = time.perf_counter_ns()
+existe_bst = arbol_prueba.contains(dato_buscado)
+t_fin_bst = time.perf_counter_ns()
+tiempo_bst = t_fin_bst - t_ini_bst
+print(f"Tiempo de busqueda en BST: {tiempo_bst} nanosegundos")
+
+if tiempo_bst > 0:
+    print(f"El BST es {tiempo_lista // tiempo_bst} veces más rápido")
 
 if __name__ == "__main__":
     test()
